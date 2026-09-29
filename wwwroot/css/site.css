@@ -1,0 +1,146 @@
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: #a55b2a !important; /* Kahverengi kenarlık */
+  box-shadow: 0 0 0 0.2rem rgba(165, 91, 42, 0.5) !important;
+}
+
+body {
+  color: #4e2e1c;
+}
+
+.card-blur h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #8b4513;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #3e1f0f;
+}
+
+label,
+p,
+span,
+td,
+th {
+  color: #4e2e1c !important;
+}
+
+table th {
+  font-weight: 600;
+}
+
+.navbar .nav-link,
+.navbar-brand {
+  color: #fff !important;
+}
+
+::placeholder {
+  color: #6e4c32;
+  opacity: 0.8;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 60px;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1950&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #000;
+}
+
+.navbar {
+  background-color: rgba(92, 64, 51, 0.85) !important; /* Kahverengimsi ton */
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .nav-link,
+.navbar-brand {
+  color: #fff !important;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover,
+.navbar-brand:hover {
+  color: #ffd7a3 !important; /* Açık kahve hover efekti */
+}
+
+.card-blur {
+  background: rgba(111, 78, 55, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #222;
+}
+
+.card-blur h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.card-blur label {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.card-blur input.form-control {
+  border-radius: 12px;
+  padding: 10px 14px;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+/* Kahverengi buton */
+.card-blur .btn-primary {
+  background-color: #8b4513;
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-weight: 500;
+  border: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.card-blur .btn-primary:hover {
+  background-color: #a0522d;
+}
+
+.card-blur h3 {
+  color: #fdf4ea !important; /* Add New Class başlığı */
+}
+
+.card-blur label {
+  color: #e9d7c2 !important; /* Class Name, Student Count, Description label'ları */
+  font-weight: 500;
+}

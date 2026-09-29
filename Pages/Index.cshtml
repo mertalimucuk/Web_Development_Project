@@ -1,0 +1,145 @@
+﻿@page
+@model Week5Lab.Pages.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!-- HOCAM SEARCH İŞLEMİNDE BULUNDUĞUNUZ SAYFADA OTOMATİK BUTONSUZ HERHANGİ BİR SAYI, DESCRIPTION, CLASS NAME İLE ALAKALI BİR ŞEY GİRMENİZ DURUMUNDA SAYFADAKİ ALAKALI VERİLER KARŞINIZA ÇIKACAKTIR. -->
+<div class="container mt-5 p-4 card-blur">
+    <div class="row">
+        <!-- SOL TARAF: FORM -->
+        <div class="col-md-6">
+            <h3>@(Model.IsEditing ? "Edit Class" : "Add New Class")</h3>
+            <form method="post">
+                <input type="hidden" asp-for="NewClass.Id" />
+                <div class="form-group mb-2">
+                    <label>Class Name</label>
+                    <input asp-for="NewClass.ClassName" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label>Student Count</label>
+                    <input asp-for="NewClass.StudentCount" class="form-control" />
+                </div>
+                <div class="form-group mb-2">
+                    <label>Description</label>
+                    <input asp-for="NewClass.Description" class="form-control" />
+                </div>
+                <button type="submit" asp-page-handler="@(Model.IsEditing ? "Update" : "Add")" class="btn btn-primary">
+                    @(Model.IsEditing ? "Edit Class" : "Add Class")
+                </button>
+            </form>
+        </div>
+
+        <!-- SAĞ TARAF: TABLO -->
+        <div class="col-md-6">
+            <h3>Class List</h3>
+
+            <!-- AI Prompt: Create an input field to enable live filtering of the table below -->
+            <input type="text" id="liveSearch" placeholder="Search..." class="form-control mb-3" />
+
+            <table class="table table-bordered" id="classTable">
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Student Count</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- AI Prompt: Iterate over the filtered class list and display each as a table row -->
+                    @foreach (var item in Model.FilteredList)
+                    {
+                        var originalItem = Week5Lab.Pages.IndexModel.ClassList.FirstOrDefault(c =>
+                            c.ClassName == item.ClassName &&
+                            c.Description == item.Description &&
+                            c.StudentCount == item.StudentCount
+                        );
+
+                        <tr>
+                            <td>@item.ClassName</td>
+                            <td>@item.StudentCount</td>
+                            <td>@item.Description</td>
+                            <td>
+                                <!-- Delete Button -->
+                                <form method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@originalItem?.Id" />
+                                    <button type="submit" asp-page-handler="Delete" class="btn btn-link text-danger p-0">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                                <!-- Edit Button -->
+                                <form method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@originalItem?.Id" />
+                                    <button type="submit" asp-page-handler="Edit" class="btn btn-link text-primary p-0 ms-2">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Sayfalama Kontrolleri -->
+            <div class="mt-3 d-flex justify-content-between align-items-center">
+                <a asp-page="./Index"
+                   asp-route-SearchTerm="@Model.SearchTerm"
+                   asp-route-PageNumber="@(Model.PageNumber - 1)"
+                   class="btn btn-outline-secondary @(Model.PageNumber <= 1 ? "disabled" : "")">
+                    Previous
+                </a>
+
+                <span class="text-primary fw-semibold">Page @Model.PageNumber of @Model.TotalPages</span>
+
+
+                <a asp-page="./Index"
+                   asp-route-SearchTerm="@Model.SearchTerm"
+                   asp-route-PageNumber="@(Model.PageNumber + 1)"
+                   class="btn btn-outline-secondary @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+                    Next
+                </a>
+            </div>
+
+            <!-- AI Prompt: Show numbered pagination if multiple pages exist -->
+            @if (Model.TotalPages > 1)
+            {
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                                <a class="page-link" href="?PageNumber=@i&SearchTerm=@Model.SearchTerm">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript: Real-time filter logic -->
+@section Scripts {
+    <script>
+        //  AI Prompt: Kullanıcı arama yaptıkça tabloya anlık nasıl filtreleme yaparım ?
+        document.getElementById("liveSearch").addEventListener("keyup", function () {
+            var input = this.value.toLowerCase();
+            var rows = document.querySelectorAll("#classTable tbody tr");
+
+            rows.forEach(row => {
+                var className = row.cells[0].innerText.toLowerCase();
+                var studentCount = row.cells[1].innerText.toLowerCase();
+                var description = row.cells[2].innerText.toLowerCase();
+
+                if (
+                    className.includes(input) ||
+                    studentCount.includes(input) ||
+                    description.includes(input)
+                ) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    </script>
+}
